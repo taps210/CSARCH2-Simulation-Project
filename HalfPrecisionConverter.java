@@ -2,11 +2,11 @@ public class  HalfPrecisionConverter {
 
     private static final int EXPONENT_BIAS = 15;
 
-    public static void main(String[] args) {
+    public static String convertInput(String input) {
         int xIndex;
         double decimal;
         char signBit = '0';
-        String input = "-32.5x10^0"; // Example input string
+        //String input = "-32.5x10^0"; // Example input string
         String expRep;
         String normalized;
         String binary = null;
@@ -33,8 +33,8 @@ public class  HalfPrecisionConverter {
         normalized = normalize(binary);
         if (normalized == "zero") {
             /////////////////////////////////////////////////////// Handle zero special case
-            System.out.println("zero special case");
-            return;
+            return "zero special case";
+            //return;
         }
 
         // get exponent representation
@@ -52,7 +52,8 @@ public class  HalfPrecisionConverter {
         }
 
         output = signBit + " " + expRep + " " + fraction;
-        System.out.println("IEEE-754 Binary-16 floating point: " + output);
+        //answer that will appear in the GUI
+        return output;
     }
 
     //Convert base-10 input to decimal value as double
@@ -61,9 +62,10 @@ public class  HalfPrecisionConverter {
         double base = Double.parseDouble(parts[0]);
         int exponent = Integer.parseInt(parts[1]);
         
-        double decimal = base * Math.pow(10, exponent);
+        return base * Math.pow(10, exponent);
+        //double decimal = base * Math.pow(10, exponent);
 
-        return decimal;
+        //return decimal;
     }
 
     //Convert decimal value to binary value as String
