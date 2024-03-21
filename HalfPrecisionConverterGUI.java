@@ -38,6 +38,8 @@ public class HalfPrecisionConverterGUI extends JFrame {
         outputPanel.add(outputLabel);
         outputPanel.add(scrollPane);
 
+        
+
         getContentPane().add(inputPanel, "North");
         getContentPane().add(outputPanel, "Center");
     }

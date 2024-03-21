@@ -97,6 +97,33 @@ public class  HalfPrecisionConverter {
         return binaryIntPart.toString() + binaryFractionalPart.toString();
     }
 
+    //convert binary value to Hexadecimal (supposedly the input must contain the concancated binary rep in a variable)
+    private static String binaryToHex(String result){
+        result=result.trim();
+        //throws an error if its not binary
+        if (!result.matches("[01]+")) {
+            throw new IllegalArgumentException("Invalid binary input: " + result);
+        }
+    
+        while (result.length() % 4 != 0) {
+            result = "0" + result;
+        }
+    
+        // Initialize StringBuilder to store the hexadecimal result
+        StringBuilder hexBuilder = new StringBuilder();
+    
+        for (int i = 0; i < result.length(); i += 4) {
+            String chunk = result.substring(i, i + 4);
+    
+            int decimalValue = Integer.parseInt(chunk, 2);
+            String hexDigit = Integer.toHexString(decimalValue).toUpperCase();
+            hexBuilder.append(hexDigit);
+        }
+    
+        return hexBuilder.toString();
+    }
+    }
+
     // Normalize binary to 1.f
     private static String normalize(String input) {
         int normalizedExponent;
