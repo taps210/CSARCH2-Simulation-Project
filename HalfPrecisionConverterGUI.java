@@ -20,8 +20,8 @@ public class HalfPrecisionConverterGUI extends JFrame {
         JButton convertButton = new JButton("Convert");
         convertButton.addActionListener(new ConvertButtonListener());
 
-        JButton saveButton = new JButton("Save"); 
-        saveButton.addActionListener(new SaveButtonListener()); 
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new SaveButtonListener());
 
         JLabel outputLabel = new JLabel("IEEE-754 Binary-16 floating point:");
         outputArea = new JTextArea(10, 30);
@@ -32,13 +32,11 @@ public class HalfPrecisionConverterGUI extends JFrame {
         inputPanel.add(inputLabel);
         inputPanel.add(inputField);
         inputPanel.add(convertButton);
-        inputPanel.add(saveButton); 
+        inputPanel.add(saveButton);
 
         JPanel outputPanel = new JPanel();
         outputPanel.add(outputLabel);
         outputPanel.add(scrollPane);
-
-
 
         getContentPane().add(inputPanel, "North");
         getContentPane().add(outputPanel, "Center");
@@ -47,17 +45,21 @@ public class HalfPrecisionConverterGUI extends JFrame {
     private class ConvertButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String input = inputField.getText().trim(); // Declaring and initializing the input variable
+            String input = inputField.getText().trim(); // Get input from the text field
+
+            try {
                 String binaryResult = HalfPrecisionConverter.convertInput(input);
                 String hexResult = HalfPrecisionConverter.binaryToHex(binaryResult);
                 String outputText = "Binary: " + binaryResult + "\nHexadecimal: " + hexResult;
                 outputArea.setText(outputText);
-    
+            } catch (IllegalArgumentException ex) {
+                // If an IllegalArgumentException occurs during conversion, set outputText to
+                // the error message
+                String binaryResult = HalfPrecisionConverter.convertInput(input);
+                outputArea.setText(binaryResult);
+            }
         }
-
-        
     }
-    
 
     private class SaveButtonListener implements ActionListener {
         @Override
@@ -67,8 +69,8 @@ public class HalfPrecisionConverterGUI extends JFrame {
             int option = fileChooser.showSaveDialog(HalfPrecisionConverterGUI.this);
             if (option == JFileChooser.APPROVE_OPTION) {
                 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                if (!filePath.toLowerCase().endsWith(".txt")) { 
-                    filePath += ".txt"; 
+                if (!filePath.toLowerCase().endsWith(".txt")) {
+                    filePath += ".txt";
                 }
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                     writer.write(result);
@@ -82,7 +84,7 @@ public class HalfPrecisionConverterGUI extends JFrame {
                 }
             }
         }
-    }    
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
