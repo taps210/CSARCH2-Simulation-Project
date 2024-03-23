@@ -31,14 +31,15 @@ public class  HalfPrecisionConverter {
 
         //normalize to 1.f
         normalized = normalize(binary);
-        if (normalized == "zero") {
-            /////////////////////////////////////////////////////// Handle zero special case
-            return "zero special case";
-            //return;
-        }
 
         // get exponent representation
         expRep = getExpRep(normalized);
+
+        //denormalized
+        /* if((normalized.indexOf('.') + 1) == '-' && (((normalized.indexOf('.') + 2) == '1' && (normalized.indexOf('.') + 3) > '5') || 
+            ((normalized.indexOf('.') + 2) > '1' && (normalized.indexOf('.') + 3) != 'x')) ) {
+            expRep = "00000";
+        } */
         
         // get fraction representation
         if (normalized.indexOf('.') == -1) {
@@ -51,10 +52,28 @@ public class  HalfPrecisionConverter {
             }
         }
 
+        //special case: Zero
+        if (input == "0" || input == "Zero" || input == "zero" || input == "+0"){
+            signBit = '0';
+            expRep = "00000";
+            fraction = "0000000000";
+        } else if (input == "-0"){
+            signBit = '1';
+            expRep = "00000";
+            fraction = "0000000000";
+        }
+
+
+
+        
+
         output = signBit + " " + expRep + " " + fraction;
+
         //answer that will appear in the GUI
         return output;
     }
+
+
 
     //Convert base-10 input to decimal value as double
     private static double base10ToDecimal(String input, int index) {
@@ -122,7 +141,7 @@ public class  HalfPrecisionConverter {
     
         return hexBuilder.toString();
     }
-    }
+    
 
     // Normalize binary to 1.f
     private static String normalize(String input) {
