@@ -122,7 +122,6 @@ public class  HalfPrecisionConverter {
     
         return hexBuilder.toString();
     }
-    }
 
     // Normalize binary to 1.f
     private static String normalize(String input) {
