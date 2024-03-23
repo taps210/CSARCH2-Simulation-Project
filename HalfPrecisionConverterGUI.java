@@ -38,7 +38,7 @@ public class HalfPrecisionConverterGUI extends JFrame {
         outputPanel.add(outputLabel);
         outputPanel.add(scrollPane);
 
-        
+
 
         getContentPane().add(inputPanel, "North");
         getContentPane().add(outputPanel, "Center");
@@ -47,11 +47,17 @@ public class HalfPrecisionConverterGUI extends JFrame {
     private class ConvertButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String input = inputField.getText().trim();
-            String result = HalfPrecisionConverter.convertInput(input); //references HalfPrecisionConverter.java
-            outputArea.setText(result);
+            String input = inputField.getText().trim(); // Declaring and initializing the input variable
+                String binaryResult = HalfPrecisionConverter.convertInput(input);
+                String hexResult = HalfPrecisionConverter.binaryToHex(binaryResult);
+                String outputText = "Binary: " + binaryResult + "\nHexadecimal: " + hexResult;
+                outputArea.setText(outputText);
+    
         }
+
+        
     }
+    
 
     private class SaveButtonListener implements ActionListener {
         @Override
