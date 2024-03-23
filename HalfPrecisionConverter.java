@@ -6,19 +6,18 @@ public class  HalfPrecisionConverter {
         int xIndex;
         double decimal;
         char signBit = '0';
-        //String input = "-32.5x10^0"; // Example input string
         String expRep;
         String normalized;
         String binary = null;
         String fraction;
         String output;
-
+    
         //get sign bit
         if (input.charAt(0) == '-') {
             signBit = '1';
             input = input.substring(1);
         }
-
+    
         xIndex = input.indexOf('x');
         //if input is base-10, convert to binary value
         if (input.charAt(xIndex + 1) == '1') {
@@ -28,19 +27,13 @@ public class  HalfPrecisionConverter {
         else {
             binary = input;
         }
-
+    
         //normalize to 1.f
         normalized = normalize(binary);
-
+    
         // get exponent representation
         expRep = getExpRep(normalized);
-
-        //denormalized
-        /* if((normalized.indexOf('^') + 1) == '-' && (((normalized.indexOf('^') + 2) == '1' && (normalized.indexOf('^') + 3) > '5') || 
-            ((normalized.indexOf('^') + 2) > '1' && (normalized.indexOf('^') + 3) != 'x')) ) {
-            expRep = "00000";
-        } */
-        
+    
         // get fraction representation
         if (normalized.indexOf('.') == -1) {
             fraction = "0000000000";
@@ -51,32 +44,37 @@ public class  HalfPrecisionConverter {
                 fraction = fraction + "0";
             }
         }
-
-        //special case: Zero
-        if (input == "0" || input == "Zero" || input == "zero" || input == "+0"){
+    
+        // special case: Zero
+        if ("0".equals(input) || "Zero".equalsIgnoreCase(input) || "zero".equalsIgnoreCase(input) || "+0".equals(input)){
             signBit = '0';
             expRep = "00000";
             fraction = "0000000000";
-        } else if (input == "-0"){
+        } else if ("-0".equals(input)){
             signBit = '1';
             expRep = "00000";
             fraction = "0000000000";
         }
+    
+        // Infinity
         if ((normalized.indexOf('^') + 1 > '1') || ((normalized.indexOf('^') + 1 == '1') && (normalized.indexOf('^') + 2 >= '5'))){
             expRep = "11111";
             fraction = "0000000000";
         }
-        if (input == "NaN"){
+    
+        // Nan
+        if ("NaN".equals(input)){
             signBit = 'x';
             expRep = "11111";
             fraction = "01xxxxxxxx or 1xxxxxxxxx";
         }
-
+    
         output = signBit + " " + expRep + " " + fraction;
-
+    
         //answer that will appear in the GUI
         return output;
     }
+    
 
 
 
