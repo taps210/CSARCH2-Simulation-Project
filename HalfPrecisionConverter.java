@@ -36,8 +36,8 @@ public class  HalfPrecisionConverter {
         expRep = getExpRep(normalized);
 
         //denormalized
-        /* if((normalized.indexOf('.') + 1) == '-' && (((normalized.indexOf('.') + 2) == '1' && (normalized.indexOf('.') + 3) > '5') || 
-            ((normalized.indexOf('.') + 2) > '1' && (normalized.indexOf('.') + 3) != 'x')) ) {
+        /* if((normalized.indexOf('^') + 1) == '-' && (((normalized.indexOf('^') + 2) == '1' && (normalized.indexOf('^') + 3) > '5') || 
+            ((normalized.indexOf('^') + 2) > '1' && (normalized.indexOf('^') + 3) != 'x')) ) {
             expRep = "00000";
         } */
         
@@ -62,10 +62,15 @@ public class  HalfPrecisionConverter {
             expRep = "00000";
             fraction = "0000000000";
         }
-
-
-
-        
+        if ((normalized.indexOf('^') + 1 > '1') || ((normalized.indexOf('^') + 1 == '1') && (normalized.indexOf('^') + 2 >= '5'))){
+            expRep = "11111";
+            fraction = "0000000000";
+        }
+        if (input == "NaN"){
+            signBit = 'x';
+            expRep = "11111";
+            fraction = "01xxxxxxxx or 1xxxxxxxxx";
+        }
 
         output = signBit + " " + expRep + " " + fraction;
 
