@@ -13,13 +13,18 @@ public class HalfPrecisionConverter {
         String binary = null;
         String fraction;
         String output;
+<<<<<<< HEAD
 
         // get sign bit
+=======
+    
+        //get sign bit
+>>>>>>> 9cb268de2c711dc95448f967956253c24286ba02
         if (input.charAt(0) == '-') {
             signBit = '1';
             input = input.substring(1);
         }
-
+    
         xIndex = input.indexOf('x');
         // if input is base-10, convert to binary value
         if (input.charAt(xIndex + 1) == '1') {
@@ -28,12 +33,18 @@ public class HalfPrecisionConverter {
         } else {
             binary = input;
         }
+<<<<<<< HEAD
         // normalize to 1.f
+=======
+    
+        //normalize to 1.f
+>>>>>>> 9cb268de2c711dc95448f967956253c24286ba02
         normalized = normalize(binary);
-
+    
         // get exponent representation
 
         expRep = getExpRep(normalized);
+<<<<<<< HEAD
 
         // Adjust exponent if lower than -15
         // Check if the string contains "x2^-" and the array length is as expected
@@ -90,16 +101,57 @@ public class HalfPrecisionConverter {
 
         // Nan
         if ("NaN".equals(input)) {
+=======
+    
+        // get fraction representation
+        if (normalized.indexOf('.') == -1) {
+            fraction = "0000000000";
+        }
+        else {
+            fraction = normalized.substring(normalized.indexOf('.') + 1, normalized.indexOf('x'));
+            while (fraction.length() < 10) {
+                fraction = fraction + "0";
+            }
+        }
+    
+        // special case: Zero
+        if ("0".equals(input) || "Zero".equalsIgnoreCase(input) || "zero".equalsIgnoreCase(input) || "+0".equals(input)){
+            signBit = '0';
+            expRep = "00000";
+            fraction = "0000000000";
+        } else if ("-0".equals(input)){
+            signBit = '1';
+            expRep = "00000";
+            fraction = "0000000000";
+        }
+    
+        // Infinity
+        if ((normalized.indexOf('^') + 1 > '1') || ((normalized.indexOf('^') + 1 == '1') && (normalized.indexOf('^') + 2 >= '5'))){
+            expRep = "11111";
+            fraction = "0000000000";
+        }
+    
+        // Nan
+        if ("NaN".equals(input)){
+>>>>>>> 9cb268de2c711dc95448f967956253c24286ba02
             signBit = 'x';
             expRep = "11111";
             fraction = "01xxxxxxxx or 1xxxxxxxxx";
         }
+<<<<<<< HEAD
 
         output = signBit + " " + expRep + " " + fraction;
 
         // answer that will appear in the GUI
+=======
+    
+        output = signBit + " " + expRep + " " + fraction;
+    
+        //answer that will appear in the GUI
+>>>>>>> 9cb268de2c711dc95448f967956253c24286ba02
         return output;
     }
+    
 
     public static String adjustExponent(String input) {
         // Parse the input to extract the significand and exponent
