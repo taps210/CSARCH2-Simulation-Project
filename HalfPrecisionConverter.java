@@ -98,8 +98,8 @@ public class  HalfPrecisionConverter {
     }
 
     //convert binary value to Hexadecimal (supposedly the input must contain the concancated binary rep in a variable)
-    private static String binaryToHex(String result){
-        result=result.trim();
+    public static String binaryToHex(String result){
+        result = result.trim().replace(" ", ""); // Remove any spaces and dots from the binary string
         //throws an error if its not binary
         if (!result.matches("[01]+")) {
             throw new IllegalArgumentException("Invalid binary input: " + result);
@@ -122,6 +122,7 @@ public class  HalfPrecisionConverter {
     
         return hexBuilder.toString();
     }
+    
 
     // Normalize binary to 1.f
     private static String normalize(String input) {
